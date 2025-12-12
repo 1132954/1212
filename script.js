@@ -2,33 +2,33 @@ let board = Array(9).fill(null); // 棋盤狀態
 let current = 'X'; // 當前玩家（玩家為X）
 let active = true; 
 function init() {
-    const boardEl = document.getElementById('board’);
-    boardEl.innerHTML = ‘’;
+    const boardEl = document.getElementById('board');
+    boardEl.innerHTML = '';
     board = Array(9).fill(null);
     active = true;
-    current = 'X’;
-    document.getElementById('status').innerText = '玩家 (X) 先手’;
+    current = 'X';
+    document.getElementById('status').innerText = '玩家 (X) 先手' ;
     // 建立9個格子
    for (let i = 0; i < 9; i++) {
-    const cell = document.createElement('div’);
-    cell.classList.add('cell’);
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
     cell.onclick = () => playerMove(i);
     boardEl.appendChild(cell);
     }
    }
    function playerMove(i) {
     if (!active || board[i]) return;
-    board[i] = 'X’;
+    board[i] = 'X';
     updateBoard();
     if (checkWin('X')) {
-    endGame('玩家 (X) 勝利！’);
+    endGame('玩家 (X) 勝利！');
     return;
     } else if (isFull()) {
-    endGame('平手！’);
+    endGame('平手！') ;
     return;
     }
-    current = 'O’;
-    document.getElementById('status').innerText = '電腦思考中...’;
+    current = 'O';
+    document.getElementById('status').innerText = '電腦思考中...';
     setTimeout(computerMove, 700); // 模擬電腦思考時間
    }
    function computerMove() {
@@ -52,18 +52,21 @@ function init() {
         }
         function findWinningMove(player) {
             const wins = [
-            [0,1,2],[3,4,5],[6,7,8],
-            [0,3,6],[1,4,7],[2,5,8],
-            [0,4,8],[2,4,6]
+                [0,1,2],[3,4,5],[6,7,8],
+                [0,3,6],[1,4,7],[2,5,8],
+                [0,4,8],[2,4,6]
             ];
             for (let [a,b,c] of wins) {
-            const line = [board[a], board[b], board[c]];
-            if (line.filter(v => v === player).length === 2 && line.includes(null)) {
-            return [a,b,c][line.indexOf(null)];
+                const line = [board[a], board[b], board[c]];
+                // 檢查該線上有兩個 player 的標記，且有一個 null
+                if (line.filter(v => v === player).length === 2 && line.includes(null)) {
+                    // 找到 null 的索引，然後回傳在 board 上的對應位置 (a, b, c)
+                    return [a,b,c][line.indexOf(null)];
+                }
             }
-           
-            return null;
-           }
+            // 檢查完所有線都沒有找到，才回傳 null
+            return null; 
+        }
         function getRandomMove() {
             const empty = board.map((v, i) => v ? null : i).filter(v => v !== null);
             return empty[Math.floor(Math.random() * empty.length)];
@@ -93,4 +96,5 @@ function init() {
                         function resetGame() {
                             init();
                             }
-                            init();
+        
+                init();
