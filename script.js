@@ -71,12 +71,21 @@ function init() {
             const empty = board.map((v, i) => v ? null : i).filter(v => v !== null);
             return empty[Math.floor(Math.random() * empty.length)];
             }
-        function updateBoard() {
-                const cells = document.getElementsByClassName('cell');
-                for (let i = 0; i < 9; i++) {
-                cells[i].innerText = board[i] || '';
-                }
-            }
+       function updateBoard() {
+    const cells = document.getElementsByClassName('cell');
+    for (let i = 0; i < 9; i++) {
+        const player = board[i]; // 獲取當前格子裡的 'X' 或 'O' (或 null)
+        cells[i].innerText = player || '';
+        
+        // --- [美化處理的關鍵修正] ---
+        // 根據格子內容，設定 data-player 屬性
+        if (player) {
+            cells[i].setAttribute('data-player', player);
+        } else {
+            cells[i].removeAttribute('data-player');
+        }
+    }
+}
             function checkWin(player) {
                 const wins = [
                 [0,1,2],[3,4,5],[6,7,8],
@@ -97,4 +106,5 @@ function init() {
                             init();
                             }
         
+
                 init();
